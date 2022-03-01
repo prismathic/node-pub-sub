@@ -1,4 +1,5 @@
 import errorHandler from 'errorhandler';
+import { createConnection } from 'typeorm';
 import app from './app';
 
 /**
@@ -11,13 +12,17 @@ if (process.env.NODE_ENV === 'development') {
 /**
  * Start Express server.
  */
-const server = app.listen(app.get('port'), () => {
-  console.log(
-    '  App is running at http://localhost:%d in %s mode',
-    app.get('port'),
-    app.get('env'),
-  );
-  console.log('  Press CTRL-C to stop\n');
-});
-
-export default server;
+createConnection()
+  .then(() => {
+    app.listen(app.get('port'), () => {
+      console.log(
+        '  App is running at http://localhost:%d in %s mode',
+        app.get('port'),
+        app.get('env'),
+      );
+      console.log('  Press CTRL-C to stop\n');
+    });
+  })
+  .catch((err) => {
+    console.log('Database connection error: ', err);
+  });

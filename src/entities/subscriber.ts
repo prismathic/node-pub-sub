@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { topic } from './Topic';
+import { topic } from './topic';
 
 @Entity()
 export class subscriber {
