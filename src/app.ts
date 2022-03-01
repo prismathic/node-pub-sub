@@ -12,11 +12,11 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(
-  (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.locals.user = req.user;
-    next();
-  },
-);
+// app.use(
+//   (req: express.Request, res: express.Response, next: express.NextFunction) => {
+//     res.locals.user = req.user;
+//     next();
+//   },
+// );
 
 export default app;
