@@ -37,6 +37,9 @@
     "errorhandler": "^1.5.1",
     "express": "^4.17.3",
     "helmet": "^5.0.2",
-    "rimraf": "^3.0.2"
+    "mysql2": "^2.3.3",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "typeorm": "^0.2.44"
   }
 }
