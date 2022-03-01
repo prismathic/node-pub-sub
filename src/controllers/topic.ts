@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { topic } from '../entities/topic';
 import { subscriber } from '../entities/subscriber';
+import axios from 'axios';
 
 export const getAll = async (req: Request, res: Response) => {
   const topicRepository = getRepository(topic);
@@ -70,6 +71,41 @@ export const subscribe = async (
 
   return res.status(200).json({
     url,
+    topic: selectedTopic.id,
+  });
+};
+
+export const publish = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  const data = req.body;
+
+  if (typeof data !== 'object') {
+    return res.status(400).json({ message: 'Invalid data passed.' });
+  }
+
+  const topicRepository = getRepository(topic);
+
+  const selectedTopic = await topicRepository.findOne({
+    where: { id: req.params.topic },
+    relations: ['subscribers'],
+  });
+
+  if (!selectedTopic) {
+    return res.status(400).json({ message: 'No topic matches selection' });
+  }
+
+  let subscriberUrls = selectedTopic.subscribers.map(
+    (subscriber) => subscriber.url,
+  );
+
+  if (subscriberUrls.length > 0) {
+    await axios.all(subscriberUrls.map((url) => axios.post(url, data)));
+  }
+
+  return res.status(200).json({
+    data,
     topic: selectedTopic.id,
   });
 };

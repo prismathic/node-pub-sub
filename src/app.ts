@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/topics', topicController.getAll);
 app.post('/topics', topicController.create);
 app.post('/subscribe/:topic', topicController.subscribe);
+app.post('/publish/:topic', topicController.publish);
 
 // app.use(
 //   (req: express.Request, res: express.Response, next: express.NextFunction) => {
